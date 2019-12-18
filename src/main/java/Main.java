@@ -17,11 +17,6 @@ import org.apache.spark.sql.RowFactory;
 public class Main {
 	
 	
-	public static Row call(String record) {
-		String[] fields = record.split(",");
-	      
-	      return RowFactory.create(fields[0], fields[1].trim());
-}
     public static void main(String[] args) {
     //	SparkConf conf = new SparkConf();
     	//JavaSparkContext jsc;
