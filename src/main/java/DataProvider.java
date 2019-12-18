@@ -2,12 +2,35 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
-import org.apache.commons.*;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+
 public class DataProvider {
 
-    public void getCSV(String fileIn ,String fileOut) {
+	private static final String String = null;
+	//copying row DATA to Hadoop HDFS Directory in order to convert it to RDDs 
+	 public void copyToHDFSDir(String srcFilePath,String destFilePath) {
+		Configuration hadoopConf = new Configuration();
+		FileSystem hdfs;
+		Path srcPath = new Path(srcFilePath);
+		Path destPath = new Path(destFilePath);
+		try {
+			hdfs = FileSystem.get(hadoopConf);
+			hdfs.copyFromLocalFile(srcPath, destPath);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+	 //extracting files from Archives 
+    public String getCSV(String fileIn ,String fileOut) {
+    	
         try {
             FileInputStream in = new FileInputStream(fileIn);
             FileOutputStream out = new FileOutputStream(fileOut);
@@ -20,8 +43,7 @@ public class DataProvider {
             }
             out.close();
             bzIn.close();
-            System.out.println("Work Done");
-            String[]  test = new String[2];
+            System.out.println("Extraction is Done");
         }catch (FileNotFoundException e){
             System.out.println(e+"   ");
 
@@ -29,5 +51,7 @@ public class DataProvider {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		return  fileOut;
     }
 }
